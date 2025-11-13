@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Web Scraper Summarizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body>
+    <main class="container">
+      <header>
+        <h1>Web Scraper Summarizer</h1>
+        <p>Paste a URL and get a concise summary of the page content.</p>
+      </header>
+
+      <section class="card">
+        <form method="post">
+          <div class="field">
+            <label for="url">Page URL</label>
+            <input
+              type="url"
+              id="url"
+              name="url"
+              placeholder="https://example.com/article"
+              required
+              value="{{ form_defaults.get('url', '') }}"
+            >
+          </div>
+
+          <div class="grid">
+            <div class="field">
+              <label for="sentences">Sentences</label>
+              <input
+                type="number"
+                id="sentences"
+                name="sentences"
+                min="1"
+                max="15"
+                value="{{ form_defaults.get('sentences', 5) }}"
+              >
+            </div>
+
+            <div class="field">
+              <label for="min_chars">Minimum Characters</label>
+              <input
+                type="number"
+                id="min_chars"
+                name="min_chars"
+                min="10"
+                max="400"
+                value="{{ form_defaults.get('min_chars', 40) }}"
+              >
+            </div>
+          </div>
+
+          <button type="submit">Summarize</button>
+        </form>
+      </section>
+
+      {% if error %}
+        <section class="alert alert-error">
+          <strong>Something went wrong:</strong>
+          <p>{{ error }}</p>
+        </section>
+      {% endif %}
+
+      {% if result %}
+        <section class="card result">
+          <h2>{{ result.title }}</h2>
+          <p class="url"><a href="{{ result.url }}" target="_blank" rel="noopener">Open original page</a></p>
+          <h3>Summary</h3>
+          <ul>
+            {% for sentence in result.summary %}
+              <li>{{ sentence }}</li>
+            {% endfor %}
+          </ul>
+
+          <details>
+            <summary>Show extracted text</summary>
+            <p>{{ result.full_text }}</p>
+          </details>
+        </section>
+      {% endif %}
+    </main>
+  </body>
+</html>
+

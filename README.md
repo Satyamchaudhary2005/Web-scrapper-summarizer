@@ -1,13 +1,13 @@
 # Web Scraper Summarizer
 
-Minimal Python CLI utility that fetches a public web page, extracts the readable text, and produces a concise summary.
+Python toolkit for fetching a public web page, extracting the readable text, and producing a concise extractive summary. It ships with both a command-line interface and a lightweight Flask web UI so anyone can generate summaries in the browser.
 
 ## Features
 
 - Downloads HTML with robust error handling and User-Agent spoofing.
 - Cleans the document and keeps the main textual content.
 - Generates an extractive summary using a frequency-based ranking algorithm.
-- Outputs both the page title and summary to the console or optionally to a file.
+- Works via CLI or browser-based interface.
 
 ## Requirements
 
@@ -17,7 +17,7 @@ Install dependencies with:
 pip install -r requirements.txt
 ```
 
-## Usage
+## CLI Usage
 
 Run the scraper from the repository root:
 
@@ -30,6 +30,16 @@ Optional arguments:
 - `--sentences`: Number of sentences in the summary (default 5).
 - `--min-chars`: Minimum character count for a sentence to be considered (default 40).
 - `--output`: Path to write the summary to disk instead of printing to stdout.
+
+## Web App Usage
+
+Start the Flask development server:
+
+```bash
+flask --app src.webapp run --reload
+```
+
+Then open http://127.0.0.1:5000/ in your browser, paste a URL, and click **Summarize**. The page returns the article title, a bulleted summary, and (optionally) the extracted text.
 
 ## Notes
 
